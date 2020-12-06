@@ -3,6 +3,10 @@
 const canvas = document.getElementById("gameboard");
 const ctx = canvas.getContext("2d");
 
+// Width and Height constants
+const WIDTH = 800;
+const HEIGHT = 400;
+
 // Positions
 let player_x = 20;
 let player_y = 20;
@@ -12,7 +16,6 @@ let ball_vx = 1;
 let ball_vy = 1;
 
 document.addEventListener("keydown", event => {
-
     // Switch case based on the key
     switch (event.key) {
         case "s":
@@ -32,6 +35,28 @@ document.addEventListener("keydown", event => {
 ctx.fillRect(player_x, player_y, 10, 50);
 ctx.fillRect(ball_x, ball_y, 10, 10);
 
+function update(){
+    // Updates the ball position
+    ball_x += ball_vx;
+    ball_y += ball_vy;
+
+    // Checks the borders for the ball
+    if (ball_x == WIDTH){
+        ball_vx = -1;
+    } else if(ball_x == 0){
+        ball_vx = 1;
+    }
+
+    if (ball_y == HEIGHT){
+        ball_vy = -1;
+    } else if(ball_y == 0){
+        ball_vy = 1;
+    }
+
+    // Runs the draw function
+    draw();
+}
+
 // Draws items
 function draw(){
 
@@ -42,12 +67,8 @@ function draw(){
     ctx.fillRect(player_x, player_y, 10, 50);
 
     // Draws the ball
-    ball_x += ball_vx;
-    ball_y += ball_vy;
     ctx.fillRect(ball_x, ball_y, 10, 10);
-    console.log(ball_x);
-    console.log(ball_y);
 }
 
 // Interval for the drawing loop
-setInterval(draw, 1000/60);
+setInterval(update, 1000/60);
