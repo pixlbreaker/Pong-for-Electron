@@ -6,8 +6,8 @@ const ctx = canvas.getContext("2d");
 // Positions
 let player_x = 20;
 let player_y = 20;
-let ball_x = 0;
-let ball_y = 0;
+let ball_x = 200;
+let ball_y = 200;
 let ball_vx = 1;
 let ball_vy = 1;
 
@@ -30,7 +30,7 @@ document.addEventListener("keydown", event => {
 
 // Create the players
 ctx.fillRect(player_x, player_y, 10, 50);
-
+ctx.fillRect(ball_x, ball_y, 10, 10);
 
 // Draws items
 function draw(){
@@ -44,9 +44,10 @@ function draw(){
     // Draws the ball
     ball_x += ball_vx;
     ball_y += ball_vy;
-    ctx.arc(ball_x, ball_y, 10, 0, Math.PI * 2);
-
+    ctx.fillRect(ball_x, ball_y, 10, 10);
+    console.log(ball_x);
+    console.log(ball_y);
 }
 
 // Interval for the drawing loop
-setInterval(draw, 10);
+setInterval(draw, 1000/60);
