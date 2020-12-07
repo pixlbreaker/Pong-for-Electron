@@ -10,10 +10,14 @@ const HEIGHT = 400;
 // Positions
 let player_x = 20;
 let player_y = 20;
-let ball_x = 200;
-let ball_y = 200;
+let ball_x = WIDTH/2;
+let ball_y = HEIGHT/2;
 let ball_vx = 1;
 let ball_vy = 1;
+
+// Score
+let pscore = 0;
+let cscore = 0;
 
 document.addEventListener("keydown", event => {
     // Switch case based on the key
@@ -35,16 +39,33 @@ document.addEventListener("keydown", event => {
 ctx.fillRect(player_x, player_y, 10, 50);
 ctx.fillRect(ball_x, ball_y, 10, 10);
 
+function resetGame(){
+
+    // Displays the score
+    console.log(`Score {$cscore}`);
+    ball_x = WIDTH/2;
+    ball_y = HEIGHT/2;
+}
+
+
 function update(){
     // Updates the ball position
     ball_x += ball_vx;
     ball_y += ball_vy;
 
+    // Checks if it hits the player
+    if ((ball_x == (player_x + 10)) 
+        && (ball_y >= player_y) 
+        && (ball_y <= (player_y + 50))){
+        ball_vx = ball_vx * -1;
+    }
+
     // Checks the borders for the ball
     if (ball_x == WIDTH){
         ball_vx = -1;
     } else if(ball_x == 0){
-        ball_vx = 1;
+        cscore += 1;
+        resetGame();
     }
 
     if (ball_y == HEIGHT){
