@@ -5,15 +5,21 @@ const ctx = canvas.getContext("2d");
 
 // Width and Height constants
 const WIDTH = 800;
-const HEIGHT = 400;
+const HEIGHT = 600;
 
 // Positions
 let player_x = 20;
-let player_y = 20;
+let player_y = HEIGHT/2;
+
+// Ball Positions
 let ball_x = WIDTH/2;
 let ball_y = HEIGHT/2;
 let ball_vx = 1;
 let ball_vy = 1;
+
+// AI Positions
+let ai_x = WIDTH -20;
+let ai_y = HEIGHT/2;
 
 // Score
 let pscore = 0;
@@ -24,11 +30,15 @@ document.addEventListener("keydown", event => {
     switch (event.key) {
         case "s":
             console.log("Down");
-            player_y += 5; //updates location
+            if (player_y + 50 < HEIGHT){
+                player_y += 5; //updates location
+            }
             break;
         case "w":
             console.log("Up");
-            player_y -= 5;
+            if (player_y > 0){
+                player_y -= 5;
+            }
             break;
         default:
             break;
@@ -37,6 +47,7 @@ document.addEventListener("keydown", event => {
 
 // Create the players
 ctx.fillRect(player_x, player_y, 10, 50);
+ctx.fillRect(ai_x, ai_y, 10, 50);
 ctx.fillRect(ball_x, ball_y, 10, 10);
 
 function resetGame(){
@@ -63,15 +74,24 @@ function update(){
     // Checks the borders for the ball
     if (ball_x == WIDTH){
         ball_vx = -1;
+        resetGame();
     } else if(ball_x == 0){
         cscore += 1;
         resetGame();
     }
 
+    // Checks the Y borders
     if (ball_y == HEIGHT){
         ball_vy = -1;
     } else if(ball_y == 0){
         ball_vy = 1;
+    }
+
+    // Updates the AI
+    if (ai_y < ball_y && (ai_y + 50 ) < HEIGHT ){
+        ai_y += 1;
+    } else if (ai_y > ball_y){
+        ai_y -= 1;
     }
 
     // Runs the draw function
@@ -86,6 +106,9 @@ function draw(){
 
     // Draws the player
     ctx.fillRect(player_x, player_y, 10, 50);
+
+    // Draws the AI
+    ctx.fillRect(ai_x, ai_y, 10, 50);
 
     // Draws the ball
     ctx.fillRect(ball_x, ball_y, 10, 10);
