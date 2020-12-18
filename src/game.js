@@ -71,6 +71,13 @@ function update(){
         ball_vx = ball_vx * -1;
     }
 
+    // Checks if it hits the AI
+    if ((ball_x == (ai_x + 10)) 
+        && (ball_y >= ai_y) 
+        && (ball_y <= (ai_y + 50))){
+        ball_vx = ball_vx * -1;
+    }
+
     // Checks the borders for the ball
     if (ball_x == WIDTH){
         ball_vx = -1;
